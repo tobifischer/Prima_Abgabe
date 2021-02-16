@@ -7,7 +7,7 @@ var FudgeKart;
     const clrWhite = ƒ.Color.CSS("white");
     FudgeKart.sizeWall = 3;
     FudgeKart.numWalls = 20;
-    FudgeKart.avatar = new ƒ.Node("Avatar");
+    FudgeKart.avatar = new ƒaid.Node("Avatar");
     let root = new ƒ.Node("Root");
     let walls;
     let enemies;
@@ -32,14 +32,17 @@ var FudgeKart;
         root.appendChild(enemies);
         let cmpCamera = new ƒ.ComponentCamera();
         cmpCamera.projectCentral(1, 45, ƒ.FIELD_OF_VIEW.DIAGONAL, 0.2, 10000);
-        cmpCamera.pivot.translate(ƒ.Vector3.Y(1.7)); // 1.7
-        //cmpCamera.pivot.rotateZ(ƒ.Vector3.Z(45));
+        cmpCamera.pivot.translate(ƒ.Vector3.Y(100));
+        cmpCamera.pivot.rotateX(90);
         cmpCamera.backgroundColor = ƒ.Color.CSS("darkblue");
         FudgeKart.avatar.addComponent(cmpCamera);
         FudgeKart.avatar.addComponent(new ƒ.ComponentTransform());
-        FudgeKart.avatar.mtxLocal.translate(ƒ.Vector3.Z(10));
+        FudgeKart.avatar.mtxLocal.translate(ƒ.Vector3.Z(1));
         FudgeKart.avatar.mtxLocal.rotate(ƒ.Vector3.Y(180));
         root.appendChild(FudgeKart.avatar);
+        /* avatar.sprite = new ƒaid.NodeSprite("Sprite");
+        avatar.sprite.addComponent(new ƒ.ComponentTransform());
+        avatar.show.appendChild(avatar.sprite); */
         FudgeKart.viewport = new ƒ.Viewport();
         FudgeKart.viewport.initialize("Viewport", root, cmpCamera, canvas);
         FudgeKart.viewport.draw();
@@ -111,9 +114,13 @@ var FudgeKart;
         let walls = new ƒ.Node("Walls");
         let txtWall = new ƒ.TextureImage("../Assets/CEMPOIS.png");
         let mtrWall = new ƒ.Material("Wall", ƒ.ShaderTexture, new ƒ.CoatTextured(clrWhite, txtWall));
-        walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(FudgeKart.sizeWall / 2), ƒ.Vector3.ZERO(), mtrWall));
-        walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, -0.866), FudgeKart.sizeWall / 2), ƒ.Vector3.Y(120), mtrWall));
-        walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-0.5, 1, -0.866), FudgeKart.sizeWall / 2), ƒ.Vector3.Y(-120), mtrWall));
+        /* for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++) {
+    
+        walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, 17), sizeWall / 2), ƒ.Vector3.Y(0), mtrWall));
+        } */
+        /* walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.Y(sizeWall / 2), ƒ.Vector3.ZERO(), mtrWall));
+        walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(120), mtrWall));
+        walls.appendChild(new Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-0.5, 1, -0.866), sizeWall / 2), ƒ.Vector3.Y(-120), mtrWall)); */
         for (let i = -FudgeKart.numWalls / 2 + 0.5; i < FudgeKart.numWalls / 2; i++) {
             walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-FudgeKart.numWalls / 2, 0.5, i), FudgeKart.sizeWall), ƒ.Vector3.Y(90), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
@@ -122,6 +129,15 @@ var FudgeKart;
             walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, -FudgeKart.numWalls / 2), FudgeKart.sizeWall), ƒ.Vector3.Y(0), mtrWall));
             // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
             walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, FudgeKart.numWalls / 2), FudgeKart.sizeWall), ƒ.Vector3.Y(180), mtrWall));
+        }
+        for (let i = -FudgeKart.numWalls / 4 + 0.5; i < FudgeKart.numWalls / 4; i++) {
+            walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(-FudgeKart.numWalls / 4, 0.5, i), FudgeKart.sizeWall), ƒ.Vector3.Y(90), mtrWall));
+            // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
+            walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(FudgeKart.numWalls / 4, 0.5, i), FudgeKart.sizeWall), ƒ.Vector3.Y(-90), mtrWall));
+            // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
+            walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, -FudgeKart.numWalls / 4), FudgeKart.sizeWall), ƒ.Vector3.Y(0), mtrWall));
+            // for (let i: number = -numWalls / 2 + 0.5; i < numWalls / 2; i++)
+            walls.appendChild(new FudgeKart.Wall(ƒ.Vector2.ONE(3), ƒ.Vector3.SCALE(new ƒ.Vector3(i, 0.5, FudgeKart.numWalls / 4), FudgeKart.sizeWall), ƒ.Vector3.Y(180), mtrWall));
         }
         return walls;
     }
